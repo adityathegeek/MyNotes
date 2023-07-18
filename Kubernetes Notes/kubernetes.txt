@@ -1,1 +1,216 @@
 Hello to all. Here is the Introduction Part for Kebernetes. 
+All notes are from the videos of *Tech With Prerit*
+
+Linux
+git
+gcp
+kubernetes
+projects
+
+
+kubernetes- basics, pod(security), app management,
+            project-1
+            scheduling, monitor & logging,
+            etcd [ in-depth], cluster security
+            project-2
+            Storage & networking
+            Misc (helm , Systems of companies)
+            Projects
+
+Total 5 projects:))))))))))))))))
+
+when tech was in initial phase -www boom- then comes Monolithic architecture
+
+when amazon comes- payment, order, personal information service was only there ..
+but all of these services are tightly coupled.
+
+but during this architecture if we have to change for one particular services then we have to change to whole codebase than we have to push that code to respective repo. which is a drawback for this architecture
+
+if prime day sale is there- ingress traffic is more for payment and order service rather than personal infro service.. so scaling became an issue,, then the infra team have to resolve the infra again and again for particular extend . as a result it will fix the over and under utilization of that service
+
+
+now came the era of microservices.. which is loosly coupled .. not dependent to each other.. multiple teams can perform actions parallely, scalability can scale into an n extend
+
+deployment is of 3 types
+
+traditional deployment -  no isolation, no proper resource consumption rules( any one can come and anyone can ) just like a open room with no doors 
+
+virtualized deployment-  1st gen of cloud computing ( on the bin) ,, one layer more added as hypervisor ( its software layer for assign cpu, ram , storage to particular vims)
+vim-  virtual machine (ex - here your main os is windows and you can run linux as guest os by taking help of oracle virtual box which is a hypervisor) .. . so, it provided an isolation for the deployment type
+
+container deployment- here hypervisor get removed and the container runtime get introduced
+here image get introduced
+
+paticular moment in particular time we click a image of ours.. as like that container/app image in kubernetes is that particular snapshot of the particular app at the particular time .. but these are immutable we have to again to build a new image if we want to change anything inside it. its portable
+
+ex- prerit created an container image and uploaded in docker hub... if aditya want to make some testing in it then he can do it from anywhere.
+
+after creation of an image we have to post or run it somewhere, the place is known/phase is known as containers. 
+
+containers- set of instructions, executable codes, dependencies , libraries ( all operations things )--- 
+
+Pros- 
+it blends nicely in devops .
+in microservices architecture and in multicloud environment then container is one among the best choice.
+faster resource provisioning
+portable
+
+cons-
+no hypervisor so if host is attacked to you then issue can be worst.. but security is not that much vulnerable
+99% containers are with linux backbone
+
+
+kubernetes - its a pilot . the containers are passengers, ship is the cluster .. and  the pilot making sure to take all of them from one source to one destination 
+
+kubernetes - k8s - they just erased the middle ones and give the total number 8
+like Aditya - A4A
+
+PROS-
+
+portable, extensible, openSource
+so there is service discovery ( one service can call anothe service any time by just his name or ip), resource consumption( resource limits) is also there, 
+load balancing is there.
+
+how the things works??
+There is big ship - Master node
+
+small boats-  worker nodes ( lets take two boats )
+
+crain -  kube scheduler ( it does the work of take containers and place it in the destination)
+
+track record keeper - etcd ( it had the storage place of data, logs of deleting and adding container from where to where and at which time . its security is the crucial part) only kube- apiserver can talk with etcd-- if any other service want to talk with etcd then they can achieve this only by taking help of kube-apiserver
+
+ship control manager-  kube controller manager ( who makes sure that everything is under control or not)
+
+control room-kube apiserver( heart of kubernetes it exposes the entire architecture)
+
+worker nodes members________________________
+ kube proxy- making sure that networking part should be good
+
+kubelet- copilot - makes sure that container can run on it.(talks with kubeapiserver  makes sure that the container should run on his particular node.. if it fails it reports to apiserver and the data reported in etcd,).
+
+container runtime- docker, container d are only accepted here( just like iphone only allows app downloads from appstore)
+
+
+kubeCtl -(command utility) its a rest end point exposed to us.. because of which we can talk to kube api server
+
+
+
+pods - smallest laptop in kubernetes- with compute, storage, networking
+
+images runs in container and container runs in pods
+
+its ip changes everytime
+
+pods are ephemeral in nature.. if pods data 
+get deleted because of some human intevention then we cant get it back.. if any external volume is added into it.. only then we can get it back.
+
+solutions is replication controller
+
+
+Deployment ---
+
+it creates a  template .. everything is same like that container.. it just make sure that replica get count.. if container had 3 replicas.. if one pod get deleted then the deployment create a pod by theirside not telling you automatically and runs your job with same infrastructure.here node controller manger is used.
+
+SERVICE
+if we want to expose the deployment to public then we have to add service.. its an abstarction layer .. it gives the external ip
+SERVICE is of 3 types...
+cluste ip- internal use cases
+nordport-  expose to external users
+load balancer - created for cloud vendors
+
+INGRESS
+Service will give the external ip only, but we wont remember it for always so, INGRESS is there.
+it maps the particular domain name with the 
+particular ip.. 
+
+
+kubenetes is written in golang
+its a openSource product
+extensible
+you can take the source code and by adding some flavour, you can make your own kubernetes
+
+kubernetes- container orchestra tool
+kubernetes diverts the loads to multiple servers and you can add external load balancer if you are working with cloud techs.
+because of service discovery any service can talk with eachother without operational overhead
+
+you can limit resources and resource ranges in your infra to make sure that it will not cross that one.
+
+if you have some secret file, and you want that your frontend cant able to access that then you can do it in configs.
+
+Master Node- Control plane 
+Worker Node- Slave
+
+Major Process always run in master nodes of kubernetes thats why it became the kubernetes
+
+Application deploy happens in worker node, we use worker node, so we are the slave and the kubernetes is master.. lol...
+
+Major job happens in MASTER NODE.
+
+if we have to talk with kubeapiserver than we have to take help of kubctl(its a command utility tool).. kube apiserver talks with every one...
+
+kubeApiServer only can talk with etcd. 
+
+controller manager-do the task to see, check and give insturctions to do the task .. like add a pod, if any pod deleted then create a new one..
+
+scheduler-- counts node affinity, tank toleration .. then ranks the worker nodes.. deploys pod in the top ranker..
+
+kubelet- its a branch manager type.. guardian of worker node.. 
+
+container runtime- here only container can run, docker container can also run..
+
+kube proxy - it sees the networking part of pods and nodes
+
+quorom- decides min number nods for your HA( HIgh Availability) Cluster, (if you want your business runs 24*7)
+quoroms formula is = n/2 + 1 
+n is total no. of nodes
+ex - if n = 12
+then quorom should be = 7 then fault tolerance is 12-7= 5 
+so, max your 5 node can go down, if your 6th node also goes down then the cluster is not HIGHLY AVAILABLE
+
+for interview, make a mindset of always prefer odd no. of nodes. so you will get room/buffer
+
+
+FlowChart of KUBERNETES
+#dabbe_me_dabba
+cluster(overview of all resources)
+   |
+node(small and big nodes with diff resources)
+   |
+pod(smallest executable unit/small laptop)-  multiple containers can run in one pod
+   |
+container(applicationParts runs here) -- an application can made with 1 to 2 containers also--  images runs in it
+   |
+images(snapshots of that particular application)
+
+
+After creating a cluster in kubernetes engine in gcp environment , you have to authorize yourself by given code in the cloud shell .
+
+after authorization .. steps are below
+
+*****kubect1 get pods - it gives count of pods
+
+if you dont like to type kubect1 always then you can replace it with any one example-
+code is ***** alias p=kubectl
+            ***** p get pods
+now, here you can get the same output like the previous one
+if you type g get pods.. then its wrong
+
+
+********p run prerit --image nginx
+pod/prerit created _- here a pod with prerit name
+
+*****p get pods
+here you can see the age, status, restarts etc..
+
+
+*******p get pods -0 wide
+gives more details about that pod
+
+********p describe pod prerit
+describes everything
+
+
+
+
+https://www.figma.com/file/mH1B7rNO4ZHPv0dguEtryq/vid-1?type=whiteboard&node-id=30-26&t=aaVsjRskX4VH0STV-0
