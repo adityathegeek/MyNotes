@@ -1,0 +1,22 @@
+DOCKER
+VM is advancement to Physical Server
+Container is advancement to VM
+
+
+
+VIRTUALISATION:
+Laptop is a physical server. here in one server one app can run but can’t utilize full capacity of that server.
+so, to solve this hypervisor came (which do virtualization to make a logical isolations/separation of physical servers for creating VMs, 
+ere OS for each VMs, in it we can run multiple applications) 
+Each VM has their own OS, and again tightly separated. so, it is secure.
+
+CONTAINERIZATION:
+We have 100gb RAM & 100gb CPU, because of VIRUTALISATION (there is 4 VMs are there with 25gb ram and 25gb CPU) 
+but EVEN though we shifted to VIRTUALISATION our app is using only 15gb,6 CPU in his best day and only 5gb of storage, 5 CPU in his worst day. 
+It’s a waste of resources. & To Solve this issue containerization came.
+VMs have a complete OS but Containers don’t have a complete OS.
+
+
+
+REFERENCES:
+YouTube: https://www.youtube.com/playlist?list=PLdpzxOOAlwvLjb0vTD9BXLOwwLD_GWCmC
